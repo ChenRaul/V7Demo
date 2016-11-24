@@ -2,6 +2,12 @@
 <manifest
     package="com.hujiang.designsupportlibrarydemo"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <uses-sdk 
+        android:minSdkVersion="17"
+        android:targetSdkVersion="22"
+        
+        />
 	<uses-permission android:name="android.permission.INTERNET" /> 
     <application
 		android:name="com.hujiang.designsupportlibrarydemo.ApplicationTest"

@@ -132,15 +132,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置Tablayout的模式，可滑动 Tab，不是固定的
         List<String> titles = new ArrayList<String>();
         titles.add("Page One");
         titles.add("Page Two");
         titles.add("Page Three");
+        titles.add("Page Four");
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(2)));
- 
+        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(3)));
+        
         List<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(new ListFragment());
         fragments.add(new ListFragment());
         fragments.add(new ListFragment());
         fragments.add(new ListFragment());

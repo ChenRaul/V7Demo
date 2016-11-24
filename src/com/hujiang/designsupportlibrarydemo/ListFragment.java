@@ -29,7 +29,7 @@ public class ListFragment extends Fragment {
 	};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        
+       
         if(refreshView == null){
         	refreshView =(SwipeRefreshLayout) inflater.inflate(R.layout.list_fragment, container, false);
             mRecyclerView = (RecyclerView) refreshView.findViewById(R.id.recycler_view);
