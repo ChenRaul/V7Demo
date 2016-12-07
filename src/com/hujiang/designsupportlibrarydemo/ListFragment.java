@@ -6,8 +6,11 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ItemDecoration;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,11 @@ public class ListFragment extends Fragment {
        
         if(refreshView == null){
         	refreshView =(SwipeRefreshLayout) inflater.inflate(R.layout.list_fragment, container, false);
-            mRecyclerView = (RecyclerView) refreshView.findViewById(R.id.recycler_view);
+            
+        	mRecyclerView = (RecyclerView) refreshView.findViewById(R.id.recycler_view);
+            
+            
+            
             /*setColorSchemeColors() 设置进度条颜色，可设置多个值，进度条颜色在这多个颜色值之间变化
     			setSize() 设置下拉出现的圆形进度条的大小，有两个值：SwipeRefreshLayout.DEFAULT 和 SwipeRefreshLayout.LARGE
     			setProgressBackgroundColorSchemeColor()设置圆形进度条背景颜色。
@@ -80,8 +87,23 @@ public class ListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //设置布局管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(mRecyclerView.getContext(),2));
+        /*使用瀑布流的方式布局，StaggeredGridLayoutManager.VERTICAL代表有3列；
+         * StaggeredGridLayoutManager.HORIZONTAL代表有3行，这样一来此时就是横向滑动的GridView了，
+         * 
+        */
+//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
         mRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
+        /*设置Item的增加、移除动画，
+        如果使用了动画，增加和删除数据更新ITem，则需要使用notifyItemInserted(position)与notifyItemRemoved(position)方法，
+       前者是增加，后者是删除，目测好像只能用position一个一个的添加、删除，一般是先增加或删除数据集的position，再执行这两个方法
+       当然如果没有使用动画模式，则跟listview是一样的
+        */
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+       
+       
+        
     }
 }

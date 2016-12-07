@@ -1,20 +1,16 @@
 package com.hujiang.designsupportlibrarydemo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TabLayout.OnTabSelectedListener;
-import android.support.design.widget.TabLayout.Tab;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +27,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hujiang.designsupportlibrarydemo.CustomDialogFragment.DialogFragmentClick;
+
 
 /*要使用ToolBar，activity就必须继承AppCompatActivity类，更改主题为NoActionBar的主题
  * 
@@ -38,7 +36,7 @@ import java.util.List;
  * */
 
 /*对于要隐藏或者要消失的组件最好使用ViewStub*/
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogFragmentClick{
 
 	public static MainActivity main_this;
     private DrawerLayout mDrawerLayout;
@@ -133,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置Tablayout的模式，可滑动 Tab，不是固定的
+      
         List<String> titles = new ArrayList<String>();
         titles.add("Page One");
         titles.add("Page Two");
@@ -196,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.findViewById(R.id.header).setOnClickListener(new OnClickListener() {
 						@Override
 			public void onClick(View v) {
-				Toast.makeText(MainActivity.this, "点击头像", 1).show();
+				 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+				 MainActivity.this.startActivity(intent);
 				 mDrawerLayout.closeDrawers();
 				
 			}
@@ -212,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
 					int position, long id) {
 				Toast.makeText(MainActivity.this, "点击"+items[position], 0).show();	
 				listPopupWindow.dismiss();
+				CustomDialogFragment customDialogFragment = CustomDialogFragment.newInstance(0,CustomDialogFragment.ONCREATEVIEW);
+		    	customDialogFragment.setDialogFragmentClick(MainActivity.this);
+		    	customDialogFragment.show(getSupportFragmentManager(), "ITEM");
 			}
 		});
     	//设置ListPopupWindow的锚点,也就是弹出框的位置是相对当前参数View的位置来显示，
@@ -219,10 +222,49 @@ public class MainActivity extends AppCompatActivity {
     	//ListPopupWindow 距锚点的距离，也就是相对锚点View的位置
     	listPopupWindow.setHorizontalOffset(200);
     	listPopupWindow.setVerticalOffset(-20);//垂直
-    	listPopupWindow.setWidth(110);
-    	listPopupWindow.setHeight(200);
+    	listPopupWindow.setWidth(320);
+    	listPopupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);
     	listPopupWindow.setModal(true);//这句让点击其它地方时，listPopupWIndow消失，同时也不会触发其它的触摸事件
     	//listPopupWindow.setForceIgnoreOutsideTouch(true);这句话在有上面这句话时好像不起作用
     	listPopupWindow.show();
     }
+    @Override
+    public void onBackPressed() {
+    	// TODO Auto-generated method stub
+    	//第一种创建方法
+//    	CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+//    	customDialogFragment.setDialogFragmentClick(this);
+//    	customDialogFragment.show(getSupportFragmentManager(), "EXIT");
+    	//第二种创建方法
+    	CustomDialogFragment customDialogFragment = CustomDialogFragment.newInstance(0,CustomDialogFragment.ONCREATDIALOG);
+    	customDialogFragment.setDialogFragmentClick(this);
+    	customDialogFragment.show(getSupportFragmentManager(), "EXIT");
+//    	super.onBackPressed();
+    }
+    
+	@Override
+	public void posClick() {
+		if(getSupportFragmentManager().findFragmentByTag("ITEM") != null){
+			CustomDialogFragment fragment = (CustomDialogFragment) getSupportFragmentManager().findFragmentByTag("ITEM");
+			fragment.dismiss();
+			
+		}else{
+			this.finish();
+		}
+		
+		
+	}
+
+	@Override
+	public void negClick() {
+		/*其实可以把CustomDialogFragment定义成一个全局变量*/
+		
+		if(getSupportFragmentManager().findFragmentByTag("ITEM") != null){
+			CustomDialogFragment fragment = (CustomDialogFragment) getSupportFragmentManager().findFragmentByTag("ITEM");
+			fragment.dismiss();
+		}else{
+			CustomDialogFragment fragment = (CustomDialogFragment) getSupportFragmentManager().findFragmentByTag("EXIT");
+			fragment.dismiss();
+		}
+	}
 }

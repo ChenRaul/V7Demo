@@ -11,9 +11,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -43,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }else{
         	VolleyRequestDemo.imageLoader(holder.imageView,"http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
         }
+        //点击事件，由于RecycView没有设置click事件和Long Click事件，所以需要自己在此处添加
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +75,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 						.show();
             }
         });
+        //设置长点击事件
+        view.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				//TODO
+				return true;
+			}
+		});
     }
 
     @Override
