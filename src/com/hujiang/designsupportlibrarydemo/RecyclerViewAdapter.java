@@ -1,5 +1,7 @@
 package com.hujiang.designsupportlibrarydemo;
 
+import java.util.ArrayList;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -20,11 +22,17 @@ import android.widget.ImageView;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
+    private ArrayList<String> data = new ArrayList<String>();
+    
 
-    public RecyclerViewAdapter(Context mContext) {
+    public RecyclerViewAdapter(Context mContext,ArrayList<String> mData) {
         this.mContext = mContext;
+        this.data = mData;
     }
-
+    public void setData(ArrayList<String> mData){
+    	this.data = mData;
+    	notifyDataSetChanged();
+    }
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =
@@ -38,11 +46,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, int position) {
         final View view = holder.mView;
-        if(position%2 == 0){
-        	VolleyRequestDemo.imageLoader(holder.imageView,"http://192.168.11.223:8080/image/QQ20160920143938.png");
-        }else{
-        	VolleyRequestDemo.imageLoader(holder.imageView,"http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
-        }
+//        if(position%2 == 0){
+        	VolleyRequestDemo.imageLoader(holder.imageView,data.get(position));
+//        }else{
+//        	VolleyRequestDemo.imageLoader(holder.imageView,"http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
+//        }
         //点击事件，由于RecycView没有设置click事件和Long Click事件，所以需要自己在此处添加
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +95,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return 100;
+        return this.data.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
