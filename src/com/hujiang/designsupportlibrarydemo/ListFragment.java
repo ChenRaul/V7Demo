@@ -11,14 +11,10 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 public class ListFragment extends Fragment{
 
@@ -29,18 +25,25 @@ public class ListFragment extends Fragment{
 	private ArrayList<String> changeData = new ArrayList<String>();
     private boolean isLoadingMore = false;
 	private RecyclerViewAdapter adapter;
+	private int realItemCount = 30;
 	private Handler handler = new Handler(){
 		@Override
 		public void handleMessage(android.os.Message msg) {
 			if(msg.what == 0){
 				data.clear();
 				data.addAll(changeData);
+				adapter.setShowFooter(true);//显示footer
+				adapter.setRealItemCount(realItemCount);//设置数据的总条数
 				adapter.setData(data);
 				refreshView.setRefreshing(false);
+				isLoadingMore = false;
 			}else if(msg.what == 1){
 				isLoadingMore = false;
 				data.addAll(changeData);
 				adapter.notifyDataSetChanged();
+				if(data.size() >= 30){
+					isLoadingMore = true;
+				}
 			}
 		};
 	};
@@ -71,9 +74,10 @@ public class ListFragment extends Fragment{
     						changeData.clear();
     						for(int i=0;i<10;i++){
     							if(i%2 == 0){
-    								changeData.add("http://192.168.11.223:8080/image/QQ20160920143938.png");
+    								
+    								changeData.add("http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
     					        }else{
-    					        	changeData.add("http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
+    					        	changeData.add("http://192.168.11.223:8080/image/QQ20160920143938.png");
     					        }
     						}
     						handler.sendEmptyMessage(0);
@@ -125,10 +129,12 @@ public class ListFragment extends Fragment{
 					* 
 					*/
 					/*此处也可以添加自动加载代码，跟在onScrolled方法里面是一样的，随便选择哪一种*/
-//					if(!isLoadingMore && recyclerView.canScrollVertically(1)){
-//						isLoadingMore = true;
+					if(!isLoadingMore && recyclerView.canScrollVertically(1)){
+						isLoadingMore = true;
 //						//加载代码
-//					}
+	                    new LoadMoreThread().start();
+	                    
+					}
 					
 				}
 
@@ -152,31 +158,11 @@ public class ListFragment extends Fragment{
 					//如果所有的记录选项等于数据集的条数，则移除列表底部视图
 	                System.out.println(firstVisibleItem+"-------"+visibleItemCount+"------"+totalItemCount+"******"+dy);
 	                //firstVisibleItem+visibleItemCount >= totalItemCount时，表明已经达到底部了
-					if (!isLoadingMore && firstVisibleItem+visibleItemCount >= totalItemCount && dy > 0) {//
-						System.out.println("加载代码线程运行");
-                       isLoadingMore = true;
-                       new Thread(){
-       					@Override
-   						public void run() {
-       						try {
-       							Thread.sleep(3000);
-       						} catch (InterruptedException e) {
-       							// TODO Auto-generated catch block
-       							e.printStackTrace();
-       						}
-       						changeData.clear();
-       						for(int i=0;i<10;i++){
-       							if(i%2 == 0){
-       								changeData.add("http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
-       					        }else{
-       					        	changeData.add("http://192.168.11.223:8080/image/QQ20160920143938.png");
-       					        }
-       							System.out.println("添加前："+data.size()+"----"+adapter.getItemCount());
-       						}
-       						handler.sendEmptyMessage(1);
-       					};
-       				}.start();
-	                }
+//					if (!isLoadingMore && firstVisibleItem+visibleItemCount >= totalItemCount && dy > 0) {//
+//						System.out.println("加载代码线程运行");
+//                       isLoadingMore = true;
+//                       new LoadMoreThread().start();
+//	                }
 				}
 
           	
@@ -210,6 +196,31 @@ public class ListFragment extends Fragment{
        
         
     }
-
+class LoadMoreThread extends Thread{
+	@Override
+	public void run() {
+		new Thread(){
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					changeData.clear();
+					for(int i=0;i<10;i++){
+						if(i%2 == 0){
+							changeData.add("http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
+				        }else{
+				        	changeData.add("http://192.168.11.223:8080/image/QQ20160920143938.png");
+				        }
+						System.out.println("添加前："+data.size()+"----"+adapter.getItemCount());
+					}
+					handler.sendEmptyMessage(1);
+				};
+			}.start();
+	}
+}
 	
 }
