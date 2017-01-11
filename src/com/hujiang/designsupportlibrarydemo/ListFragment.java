@@ -128,7 +128,12 @@ public class ListFragment extends Fragment{
 					
 					* 
 					*/
-					/*此处也可以添加自动加载代码，跟在onScrolled方法里面是一样的，随便选择哪一种*/
+					/*此处也可以添加自动加载代码，跟在onScrolled方法里面是一样的，随便选择哪一种；
+					 * 
+					 * 至于是recyclerView.canScrollVertically(1)是false还是true再开始加载更多的数据，取决于是否想快速的进行加载，
+					 * true表示只要屏幕向下滑动就会开始加载数据。
+					 * false表示只有滑动到底部时才开始加载数据，这可能导致速度比较慢
+					 * */
 					if(!isLoadingMore && recyclerView.canScrollVertically(1)){
 						isLoadingMore = true;
 //						//加载代码

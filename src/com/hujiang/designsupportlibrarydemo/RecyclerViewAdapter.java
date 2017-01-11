@@ -102,8 +102,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     				                    }
     				                });
     				                animator.start();
-    				                
-    								
     							}
     						}).setTitle("V7中最新dialog展示：")
     						.setCancelable(false)
