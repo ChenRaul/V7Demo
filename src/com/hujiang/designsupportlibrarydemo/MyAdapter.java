@@ -2,10 +2,6 @@ package com.hujiang.designsupportlibrarydemo;
 
 import java.util.ArrayList;
 
-import com.hujiang.designsupportlibrarydemo.RecyclerViewAdapter.FooterHolder;
-import com.hujiang.designsupportlibrarydemo.RecyclerViewAdapter.HeaderHolder;
-import com.hujiang.designsupportlibrarydemo.RecyclerViewAdapter.ItemHolder;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;

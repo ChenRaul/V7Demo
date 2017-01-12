@@ -2,23 +2,9 @@ package com.hujiang.designsupportlibrarydemo;
 
 import java.util.ArrayList;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /*该RecycleView的adapter可以添加header或者footer*/
 public abstract  class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
