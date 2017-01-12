@@ -31,7 +31,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ArrayList<String> data = new ArrayList<String>();
     private int realPosition=0;//实际的item position（当增加headerview时）,防止实际的Item获取data数组List中的内容的出现问题，主要是index和position的换算
     private int realItemCount = 30;//实际的Item内容的总个数，用于标识是加载中还是加载完毕
-    		
     
 
     public RecyclerViewAdapter(Context mContext,ArrayList<String> mData) {
@@ -45,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     	this.data = mData;
     	notifyDataSetChanged();
     }
+    
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
        if(viewType == ITEM_TYPE_HEADER){

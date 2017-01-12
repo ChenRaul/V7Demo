@@ -24,7 +24,8 @@ public class ListFragment extends Fragment{
 	private ArrayList<String> data = new ArrayList<String>();
 	private ArrayList<String> changeData = new ArrayList<String>();
     private boolean isLoadingMore = false;
-	private RecyclerViewAdapter adapter;
+	private RecyclerViewAdapter adapter; //第一种直接new原生态的adapter
+//    private MyAdapter adapter;//第二种继承经过提炼的base的adapter，感觉第一种代码更少,其实用原生的，需要时直接new，再根据情况设置头部和footer显示就可以了
 	private int realItemCount = 30;
 	private Handler handler = new Handler(){
 		@Override
@@ -74,7 +75,6 @@ public class ListFragment extends Fragment{
     						changeData.clear();
     						for(int i=0;i<10;i++){
     							if(i%2 == 0){
-    								
     								changeData.add("http://img.my.csdn.net/uploads/201404/13/1397393290_5765.jpeg");
     					        }else{
     					        	changeData.add("http://192.168.11.223:8080/image/QQ20160920143938.png");
@@ -99,7 +99,9 @@ public class ListFragment extends Fragment{
            * 
           */
 //          mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL));
+          
             adapter = new RecyclerViewAdapter(getActivity(),data);
+//            adapter = new MyAdapter(getActivity(),data);
           mRecyclerView.setAdapter(adapter);
           /*设置Item的增加、移除动画，
           如果使用了动画，增加和删除数据更新ITem，则需要使用notifyItemInserted(position)与notifyItemRemoved(position)方法，
@@ -160,7 +162,7 @@ public class ListFragment extends Fragment{
 					int totalItemCount = ((LinearLayoutManager) recyclerView.getLayoutManager()).getItemCount();
 	                //当前可见的Item的个数
 	                int visibleItemCount = ((LinearLayoutManager) recyclerView.getLayoutManager()).getChildCount();
-					//如果所有的记录选项等于数据集的条数，则移除列表底部视图
+					
 	                System.out.println(firstVisibleItem+"-------"+visibleItemCount+"------"+totalItemCount+"******"+dy);
 	                //firstVisibleItem+visibleItemCount >= totalItemCount时，表明已经达到底部了
 //					if (!isLoadingMore && firstVisibleItem+visibleItemCount >= totalItemCount && dy > 0) {//
