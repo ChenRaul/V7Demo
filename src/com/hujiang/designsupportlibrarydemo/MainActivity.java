@@ -191,8 +191,9 @@ public class MainActivity extends AppCompatActivity implements DialogFragmentCli
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
-                });
-        MainActivity.this.findViewById(R.id.header).setOnClickListener(new OnClickListener() {
+                }); 
+        //获取头部的VIew并设置监听
+        navigationView.getHeaderView(0).setOnClickListener(new OnClickListener() {
 						@Override
 			public void onClick(View v) {
 				 Intent intent = new Intent(MainActivity.this, LoginActivity.class);

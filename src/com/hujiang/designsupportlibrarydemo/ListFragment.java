@@ -69,7 +69,6 @@ public class ListFragment extends Fragment{
     						try {
     							Thread.sleep(3000);
     						} catch (InterruptedException e) {
-    							// TODO Auto-generated catch block
     							e.printStackTrace();
     						}
     						changeData.clear();
@@ -85,8 +84,7 @@ public class ListFragment extends Fragment{
     				}.start();
     			}
     		};
-            refreshView.setOnRefreshListener(refreshListener);
-            
+            refreshView.setOnRefreshListener(refreshListener);           
             refreshView.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN,Color.YELLOW);
             refreshView.setSize(SwipeRefreshLayout.DEFAULT);
             refreshView.setProgressBackgroundColorSchemeColor(Color.GRAY);
@@ -136,7 +134,7 @@ public class ListFragment extends Fragment{
 					 * true表示只要屏幕向下滑动就会开始加载数据。
 					 * false表示只有滑动到底部时才开始加载数据，这可能导致速度比较慢
 					 * */
-					if(!isLoadingMore && recyclerView.canScrollVertically(1)){
+					if(!isLoadingMore && !recyclerView.canScrollVertically(1)){
 						isLoadingMore = true;
 //						//加载代码
 	                    new LoadMoreThread().start();
@@ -189,7 +187,6 @@ public class ListFragment extends Fragment{
 	    if (parent != null){
 	    	parent.removeView(refreshView);
 	    }
-     
         return refreshView;
     }
 

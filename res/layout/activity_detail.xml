@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dip"
+            app:expandedTitleMarginStart="10dip"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -40,10 +40,20 @@
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:contentInsetStart="0dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-               
-               
+                <TextView 
+                    android:id="@+id/detail_title"
+                    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:text="详情信息"
+        android:gravity="center"
+        android:visibility="gone"
+                    />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -61,15 +71,21 @@
             android:orientation="vertical"
             android:paddingTop="24dp">
 
-            <include layout="@layout/list_item_card_detail"/>
+            <include 
+                android:id="@+id/list_item_card_detail1"
+                layout="@layout/list_item_card_detail"/>
 
-            <include layout="@layout/list_item_card_detail"/>
+            <include  android:id="@+id/list_item_card_detail2"
+                layout="@layout/list_item_card_detail"/>
 
-            <include layout="@layout/list_item_card_detail"/>
+            <include  android:id="@+id/list_item_card_detail3"
+                layout="@layout/list_item_card_detail"/>
 
-            <include layout="@layout/list_item_card_detail"/>
+            <include  android:id="@+id/list_item_card_detail4"
+                layout="@layout/list_item_card_detail"/>
 
-            <include layout="@layout/list_item_card_detail"/>
+            <include  android:id="@+id/list_item_card_detail5"
+                layout="@layout/list_item_card_detail"/>
 
         </LinearLayout>
 
